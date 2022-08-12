@@ -6,11 +6,11 @@
 /*   By: lde-la-h <main@w2wizard.dev>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/08/12 13:41:40 by lde-la-h      #+#    #+#                 */
-/*   Updated: 2022/08/12 15:11:59 by lde-la-h      ########   odam.nl         */
+/*   Updated: 2022/08/12 16:33:34 by lde-la-h      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "MLX42_Int.hpp"
+#include "MLX42/MLX42_Int.hpp"
 
 //= Private =//
 

@@ -6,13 +6,13 @@
 /*   By: lde-la-h <main@w2wizard.dev>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/08/12 10:35:14 by lde-la-h      #+#    #+#                 */
-/*   Updated: 2022/08/12 14:08:56 by lde-la-h      ########   odam.nl         */
+/*   Updated: 2022/08/12 16:27:46 by lde-la-h      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef API_HPP
 # define API_HPP
-# include "MLX42_Int.hpp"
+# include "MLX42/MLX42_Int.hpp"
 namespace MLX {
 
 /**
@@ -21,7 +21,7 @@ namespace MLX {
  * Base class implementation for the common actions used
  * in mlx such as creating an image.
  */
-class API
+class GFXAPI
 {
 public: // Initilization
 

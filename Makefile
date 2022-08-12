@@ -6,7 +6,7 @@
 #    By: W2Wizard <w2.wizzard@gmail.com>              +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/02/26 21:32:49 by W2Wizard      #+#    #+#                  #
-#    Updated: 2022/08/12 10:07:21 by lde-la-h      ########   odam.nl          #
+#    Updated: 2022/08/12 16:38:32 by lde-la-h      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ INCLUDE_DIR	:= include
 
 override HEADERS += -I $(INCLUDE_DIR)
 
-CFLAGS :=	-Wextra -Wall -Werror -Wunreachable-code -Wno-char-subscripts -Wno-sign-compare
+CFLAGS := -std=c++17 -Wextra -Wall -Werror -Wunreachable-code -Wno-char-subscripts -Wno-sign-compare -Wno-unused-parameter
 ifdef DEBUG
 	CFLAGS += -g
 else
@@ -28,12 +28,13 @@ endif
 # Recursive wildcard/find function, the subst is to guarantee unix file paths
 rwildcard = $(subst \,/,$(sort $(foreach d,$(wildcard $1/*),$(call rwildcard,$d,$2) $(wildcard $1/$2))))
 
+# TODO: Fix this, all of it is still handling c files, we need both.
 SHDR	:= $(call rwildcard,$(SHADER_DIR),default.*)
 SHDR	:= $(SHDR:$(SHADER_DIR)/default.%=$(SRC_DIR)/mlx_%_shader.c)
 LIB		:= $(call rwildcard,$(LIB_DIR),*.c)
-SRCS	:= $(call rwildcard,$(SRC_DIR),*.c)
-OBJS	:= $(sort $(patsubst %.c,%.o,$(SRCS) $(LIB) $(SHDR)))
-HDRS	:= $(call rwildcard,$(INCLUDE_DIR),*.h)
+SRCS	:= $(call rwildcard,$(SRC_DIR),*.cpp)
+OBJS	:= $(sort $(patsubst %.cpp,%.o,$(SRCS) $(LIB) $(SHDR)))
+HDRS	:= $(call rwildcard,$(INCLUDE_DIR),*.hpp)
 
 ifeq ($(OS), Windows_NT)
 	ifdef WIN_UNIX

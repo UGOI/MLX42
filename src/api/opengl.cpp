@@ -6,7 +6,7 @@
 /*   By: lde-la-h <main@w2wizard.dev>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/08/12 13:04:19 by lde-la-h      #+#    #+#                 */
-/*   Updated: 2022/08/12 15:33:15 by lde-la-h      ########   odam.nl         */
+/*   Updated: 2022/08/12 16:33:24 by lde-la-h      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ bool MLX::API::OpenGL::init(void)
 
         glUniform1i(glGetUniformLocation(this->shaderProgram, texture.data()), i);
     }
+    return (true);
 }
 
 void MLX::API::OpenGL::loop(void)
@@ -101,7 +102,7 @@ void MLX::API::OpenGL::shutdown(void)
 
 mlx_t* MLX::API::OpenGL::newWindow(int32_t width, int32_t height, const std::string_view title, bool resize)
 {
-    
+    return (nullptr);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -122,12 +123,12 @@ void MLX::API::OpenGL::putPixel(mlx_image_t* image, uint32_t x, uint32_t y, uint
 
 mlx_image_t* MLX::API::OpenGL::newImage(uint32_t width, uint32_t height)
 {
-
+    return (nullptr);
 }
 
 int32_t MLX::API::OpenGL::imageToWindow(mlx_image_t* img, int32_t x, int32_t y)
 {
-
+    return (0);
 }
 
 void MLX::API::OpenGL::deleteImage(mlx_image_t* image)
@@ -137,7 +138,7 @@ void MLX::API::OpenGL::deleteImage(mlx_image_t* image)
 
 bool MLX::API::OpenGL::resizeImage(mlx_image_t* img, uint32_t nwidth, uint32_t nheight)
 {
-
+    return (false);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -172,7 +173,9 @@ void MLX::API::OpenGL::renderImages(void)
     if (this->sortQueue)
     {
         this->sortQueue = false;
-        std::sort(this->renderQueue.begin(), this->renderQueue.end());
+        std::sort(this->renderQueue.begin(), this->renderQueue.end(), [&](drawQueue& A, drawQueue& B) {
+            return (A.image->instances[A.instanceid].z < B.image->instances[B.instanceid].z);
+        });
     }
 
     // Upload textures
@@ -217,20 +220,19 @@ void MLX::API::OpenGL::renderImages(void)
 
 void MLX::API::OpenGL::updateMatrix(int32_t width, int32_t height)
 {
-	const float depth = this->zdepth;
-
 	/**
 	 * Incase the setting to stretch the image is set, we maintain the width and height but not
 	 * the depth.
 	 */
-	width = MLX::Int::settings[MLX_STRETCH_IMAGE] ? this->initialWidth : width;
-	height = MLX::Int::settings[MLX_STRETCH_IMAGE] ? this->initialHeight : height;
+	const float fwidth = MLX::Int::settings[MLX_STRETCH_IMAGE] ? this->initialWidth : width;
+	const float fheight = MLX::Int::settings[MLX_STRETCH_IMAGE] ? this->initialHeight : height;
+	const float depth = this->zdepth;
 
 	const float matrix[16] = {
-		2.f / width, 0, 0, 0,
-		0, 2.f / -(height), 0, 0,
+		2.f / fwidth, 0, 0, 0,
+		0, 2.f / -(fheight), 0, 0,
 		0, 0, -2.f / (depth - -depth), 0,
-		-1, -(height / -height),
+		-1, -(fheight / -fheight),
 		-((depth + -depth) / (depth - -depth)), 1
 	};
 

@@ -6,7 +6,7 @@
 /*   By: lde-la-h <main@w2wizard.dev>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/08/12 10:35:14 by lde-la-h      #+#    #+#                 */
-/*   Updated: 2022/08/12 15:19:34 by lde-la-h      ########   odam.nl         */
+/*   Updated: 2022/08/12 16:27:54 by lde-la-h      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ namespace MLX::API {
 /**
  * @brief API implementation of MLX42 in OpenGL.
  */
-class OpenGL final : public MLX::API
+class OpenGL final : public MLX::GFXAPI
 {
 public: // Ctor ~ Dtor
     OpenGL();
@@ -131,8 +131,8 @@ private: // Attributes
 
 	// Batching
 	int32_t zdepth; // Current Z depth for instances.
-	int32_t boundTextures[16]; // Array of textures.
 	int32_t batchSize; // The batching size.
+	int32_t boundTextures[16]; // Array of textures.
 	vertex batchVertices[MLX_BATCH_SIZE]; // The array of batched vertices.
 };
 
