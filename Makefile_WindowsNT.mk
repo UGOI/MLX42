@@ -6,7 +6,7 @@
 #    By: W2Wizard <w2.wizzard@gmail.com>              +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/02/26 21:32:00 by W2Wizard      #+#    #+#                  #
-#    Updated: 2022/07/05 14:55:05 by jobvan-d      ########   odam.nl          #
+#    Updated: 2022/08/12 10:05:59 by lde-la-h      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@
 #//= Colors =//#
 # Nope :(
 
-CC		:= gcc # We need to explicitly mention GCC/CC here.
+CC		:= g++ # We need to explicitly mention GCC/CC here.
 WINSTFU	:= > NUL 2>&1 # In some cases we want windows to just stfu
 
 # Switch file paths to windows \ delimiter
@@ -32,7 +32,7 @@ $(NAME): $(OBJS)
 	@ar rc $@ $^
 	@echo Done
 
-%.o: %.c $(HDRS)
+%.o: %.cpp $(HDRS)
 	@echo Compiling: $(notdir $<)
 	@$(CC) $(CFLAGS) -o $@ -c $< $(HEADERS)
 

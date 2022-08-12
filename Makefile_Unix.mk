@@ -6,7 +6,7 @@
 #    By: W2Wizard <w2.wizzard@gmail.com>              +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/02/26 21:36:38 by W2Wizard      #+#    #+#                  #
-#    Updated: 2022/07/05 14:53:23 by jobvan-d      ########   odam.nl          #
+#    Updated: 2022/08/12 10:19:04 by lde-la-h      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,7 @@ $(NAME): $(OBJS)
 	@ar rc $@ $^
 	@echo "$(GREEN)$(BOLD)Done$(RESET)"
 
-%.o: %.c $(HDRS)
+%.o: %.cpp $(HDRS)
 	@echo "$(GREEN)$(BOLD)Compiling: $(notdir $<)$(RESET)"
 	@$(CC) $(CFLAGS) -o $@ -c $< $(HEADERS)
 
