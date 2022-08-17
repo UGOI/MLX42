@@ -6,7 +6,7 @@
 /*   By: lde-la-h <main@w2wizard.dev>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/08/12 13:04:19 by lde-la-h      #+#    #+#                 */
-/*   Updated: 2022/08/12 16:33:24 by lde-la-h      ########   odam.nl         */
+/*   Updated: 2022/08/15 09:50:41 by lde-la-h      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 MLX::API::OpenGL::OpenGL() : vao(0), vbo(0), shaderProgram(0), zdepth(0)
 {
-    std::memset(this->boundTextures, 0, sizeof(this->boundTextures));
+    memset(this->boundTextures, 0, sizeof(this->boundTextures));
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -28,15 +28,15 @@ bool MLX::API::OpenGL::init(void)
 
 	// Load all OpenGL function pointers
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
-		return (MLX::Int::error(MLX_GLADFAIL));
+		return (MLX::Int::setError(MLX_GLADFAIL), false);
 
     // Compile shaders
 	if (!(vshader = this->compileShader(MLX::Int::vertShader, GL_VERTEX_SHADER)))
-		return (MLX::Int::error(MLX_VERTFAIL));
+		return (MLX::Int::setError(MLX_VERTFAIL), false);
 	if (!(fshader = this->compileShader(MLX::Int::fragShader, GL_FRAGMENT_SHADER)))
-		return (MLX::Int::error(MLX_FRAGFAIL));
+		return (MLX::Int::setError(MLX_FRAGFAIL), false);
 	if (!(this->shaderProgram = glCreateProgram()))
-		return (MLX::Int::error(MLX_SHDRFAIL));
+		return (MLX::Int::setError(MLX_SHDRFAIL), false);
 
     // Attach, link and check the status.
 	glAttachShader(this->shaderProgram, vshader);
@@ -47,7 +47,7 @@ bool MLX::API::OpenGL::init(void)
 	{
 		glGetProgramInfoLog(this->shaderProgram, sizeof(infolog), NULL, infolog);
         std::cerr << infolog << std::endl;
-		return (MLX::Int::error(MLX_SHDRFAIL));
+		return (MLX::Int::setError(MLX_SHDRFAIL), false);
 	}
 	glDeleteShader(vshader);
 	glDeleteShader(fshader);
@@ -195,11 +195,11 @@ void MLX::API::OpenGL::renderImages(void)
         if (!entry.image->enabled || !instance.enabled)
             continue;
         
-        float w = (float) entry.image->width;
-        float h = (float) entry.image->height;
-        float x = (float) instance.x;
-        float y = (float) instance.y;
-        float z = (float) instance.z;
+        float w = static_cast<float>(entry.image->width);
+        float h = static_cast<float>(entry.image->height);
+        float x = static_cast<float>(instance.x);
+        float y = static_cast<float>(instance.y);
+        float z = static_cast<float>(instance.z);
         int8_t tex = bindTexture(entry.image);
 
         vertex vertices[6] = {
@@ -210,7 +210,7 @@ void MLX::API::OpenGL::renderImages(void)
             (vertex){x, y + h, z, 0.f, 1.f, tex},
             (vertex){x + w, y + h, z, 1.f, 1.f, tex},
         };
-        std::memmove(this->batchVertices + this->batchSize, vertices, sizeof(vertices));
+        memmove(this->batchVertices + this->batchSize, vertices, sizeof(vertices));
         this->batchSize += 6; // 2 * 3 Tris
 
         if (this->batchSize >= MLX_BATCH_SIZE)
@@ -249,7 +249,7 @@ void MLX::API::OpenGL::flushBatch(void)
 	glDrawArrays(GL_TRIANGLES, 0, this->batchSize);
 
 	this->batchSize = 0;
-	std::memset(this->boundTextures, 0, sizeof(this->boundTextures));
+	memset(this->boundTextures, 0, sizeof(this->boundTextures));
 }
 
 int8_t MLX::API::OpenGL::bindTexture(mlx_image_t* img)

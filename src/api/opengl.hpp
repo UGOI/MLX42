@@ -6,7 +6,7 @@
 /*   By: lde-la-h <main@w2wizard.dev>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/08/12 10:35:14 by lde-la-h      #+#    #+#                 */
-/*   Updated: 2022/08/12 16:27:54 by lde-la-h      ########   odam.nl         */
+/*   Updated: 2022/08/15 09:49:13 by lde-la-h      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,16 +71,15 @@ private: // Misc Functions
     void updateMatrix(int32_t width, int32_t height);
 
     /**
-     * @brief 
-     * 
+     * @brief Flush the batched vertices.
      */
     void flushBatch(void);
 
     /**
-     * @brief 
+     * @brief Binds the given image onto an available texture.
      * 
-     * @param img 
-     * @return int8_t 
+     * @param img The image to bind.
+     * @return The texture index.
      */
     int8_t bindTexture(mlx_image_t* img);
 

@@ -6,7 +6,7 @@
 /*   By: lde-la-h <main@w2wizard.dev>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/08/12 10:29:49 by lde-la-h      #+#    #+#                 */
-/*   Updated: 2022/08/12 15:34:37 by lde-la-h      ########   odam.nl         */
+/*   Updated: 2022/08/15 09:51:13 by lde-la-h      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,6 @@
 # include "glad/glad.h"
 # include "KHR/khrplatform.h"
 # include <GLFW/glfw3.h>
-# if defined(_WIN32)
-#  include <windows.h>
-# else
-#  include <err.h>
-# endif
 # include <limits>
 # include <memory>
 # include <iostream>
@@ -35,6 +30,7 @@
 # include <string_view> /* std::string_view */
 # include <cctype> /* isspace, isprint, ... */
 # include <assert.h> /* assert, static_assert, ... */
+# include <exception>
 
 ////////////////////////////////////////////////////////////////////////////////
 // Macros
@@ -44,7 +40,7 @@
 # define MLX_NONNULL(var) MLX_ASSERT(var, "Value can't be null");
 # define BPP 4
 
-// Internal namespace
+// Internal namespace, only for use inside the library.
 namespace MLX::Int {
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -81,42 +77,19 @@ extern int32_t settings[MLX_SETTINGS_MAX];
  *
  * We want to keep it straight forward with functors already describing
  * what params they have.
+ * 
+ * NOTE: Hooks are dealt with lambdas!
  */
-
-// TODO: Use lambda instead maybe.
-
-template<typename F>
-struct callback
-{
-	void*	param;
-	F       func;
-};
-
-// Callback structure used to handle mouse scrolling.
-typedef callback<mlx_scrollfunc>	mlx_scroll;
-// Callback structure used to handle mouse actions.
-typedef callback<mlx_mousefunc>		mlx_mouse;
-// Callback structure used to handle raw mouse movement.
-typedef callback<mlx_cursorfunc>	mlx_cursor;
-// Callback structure used to handle window closing
-typedef callback<mlx_closefunc>		mlx_close;
-// Callback structure used to handle window resizing.
-typedef callback<mlx_resizefunc>	mlx_resize;
-// Callback structure used to handle key presses.
-typedef callback<mlx_keyfunc>		mlx_key;
-// Callback structure used to handle loop interops
-typedef callback<void(*)(void*)>	mlx_hook;
 
 ////////////////////////////////////////////////////////////////////////////////
 // Types
 ////////////////////////////////////////////////////////////////////////////////
 
-
 ////////////////////////////////////////////////////////////////////////////////
 // Functions
 ////////////////////////////////////////////////////////////////////////////////
 
-bool error(mlx_errno_t val);
+void setError(mlx_errno_t val);
 
 }
 #endif

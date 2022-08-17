@@ -6,7 +6,7 @@
 /*   By: lde-la-h <main@w2wizard.dev>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/08/12 13:41:40 by lde-la-h      #+#    #+#                 */
-/*   Updated: 2022/08/12 16:33:34 by lde-la-h      ########   odam.nl         */
+/*   Updated: 2022/08/15 09:41:33 by lde-la-h      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,11 @@ static const char* mlx_errors[MLX_ERRMAX] = {
  * Functions to set the error number, simply for convenience.
  * 
  * @param[in] val The error value.
- * @return Always false 
  */
-bool error(mlx_errno_t val)
+void setError(mlx_errno_t val)
 {
 	mlx_errno = val;
-    std::cerr << "MLX42: " << mlx_strerror(mlx_errno) << std::endl;
-	return (false);
+    //std::cerr << "MLX42: " << mlx_strerror(mlx_errno) << std::endl;
 }
 
 //= Public =//
